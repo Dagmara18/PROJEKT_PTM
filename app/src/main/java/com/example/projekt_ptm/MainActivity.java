@@ -21,6 +21,6 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        System.out.println("Hello World");
+        System.out.println("Hello everyone, slay!");
     }
 }
