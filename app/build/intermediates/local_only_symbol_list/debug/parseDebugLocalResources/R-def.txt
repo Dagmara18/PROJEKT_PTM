@@ -1,0 +1,25 @@
+R_DEF: Internal format may change without notice
+local
+color black
+color white
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+id btnAddPoint
+id btnBack
+id btnViewPoints
+id etPointDesc
+id etPointName
+id id_pkt
+id inputLayout
+id map
+id pointsContainer
+id tvHeader
+layout activity_main
+layout activity_point_list
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+style Base.Theme.PROJEKT_PTM
+style Theme.PROJEKT_PTM
+xml backup_rules
+xml data_extraction_rules
