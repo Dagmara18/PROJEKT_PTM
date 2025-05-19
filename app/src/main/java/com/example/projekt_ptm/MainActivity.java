@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
@@ -50,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     private Database dbHelper;
     private String encodedImage = "";
     private GeoPoint lastUserLocation;
-    private boolean isLocationSet = false;
 
     private ActivityResultLauncher<Intent> cameraLauncher;
 
@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                     REQUEST_PERMISSIONS_REQUEST_CODE);
         } else {
             startLocationUpdates();
+            loadMarkersFromDatabase(); // Wczytanie markerów przy starcie aplikacji
         }
     }
 
@@ -133,11 +134,9 @@ public class MainActivity extends AppCompatActivity {
             lastUserLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
             updateUserLocationMarker(lastUserLocation);
 
-            if (!isLocationSet) {
-                mapController.setZoom(18.0);
-                mapController.animateTo(lastUserLocation);
-                isLocationSet = true;
-            }
+            // Zawsze zoomuj do lokalizacji użytkownika po jej ustaleniu
+            mapController.setZoom(18.0);
+            mapController.animateTo(lastUserLocation);
         }
     };
 
@@ -206,16 +205,17 @@ public class MainActivity extends AppCompatActivity {
         mapView.invalidate();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startLocationUpdates();
-            } else {
-                Toast.makeText(this, "Brak uprawnień do lokalizacji", Toast.LENGTH_SHORT).show();
-            }
+    private void loadMarkersFromDatabase() {
+        Cursor cursor = dbHelper.getAllPoints();
+        while (cursor.moveToNext()) {
+            double lat = cursor.getDouble(cursor.getColumnIndex("x"));
+            double lon = cursor.getDouble(cursor.getColumnIndex("y"));
+            String name = cursor.getString(cursor.getColumnIndex("nazwa"));
+
+            GeoPoint location = new GeoPoint(lat, lon);
+            addMarkerToMap(name, location);
         }
+        cursor.close();
     }
 
     @Override
