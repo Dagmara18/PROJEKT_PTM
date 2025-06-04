@@ -8,7 +8,6 @@
         android:minSdkVersion="24"
         android:targetSdkVersion="35" />
 
-    <!-- Uprawnienia -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -44,11 +43,11 @@
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:extractNativeLibs="false"
-        android:label="Projekt PTM"
+        android:label="@string/app_name"
         android:testOnly="true"
         android:theme="@style/Theme.PROJEKT_PTM" >
         <activity
-            android:name="com.example.projekt_ptm.MainActivity"
+            android:name="com.example.projekt_ptm.StartActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,6 +55,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.projekt_ptm.MainActivity"
+            android:exported="true" />
         <activity
             android:name="com.example.projekt_ptm.PointListActivity"
             android:exported="true" />

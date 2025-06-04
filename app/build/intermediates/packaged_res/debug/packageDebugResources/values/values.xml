@@ -2,7 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <string name="app_name">PROJEKT_PTM</string>
+    <string name="app_name">GeoMark</string>
     <style name="Base.Theme.PROJEKT_PTM" parent="Theme.Material3.DayNight.NoActionBar">
         
         
