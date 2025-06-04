@@ -90,16 +90,14 @@ Aby aplikacja działała poprawnie, wymaga następujących uprawnień:
 
 ## 6. Etapy realizacji projektu
 
-| Etap |
-
-| 1. Stworzenie repozytorium 
-| 2. Konfiguracja projektu + OSMDroid 
-| 3. Moduł lokalizacji GPS
-| 4. Formularz punktu 
-| 5. Obsługa zdjęć i zapis do bazy 
-| 6. Lista punktów + markery
-| 7. Ekran startowy + personalizacja 
-| 8. Dokumentacja projektu 
+1. Stworzenie repozytorium 
+2. Konfiguracja projektu + OSMDroid 
+3. Moduł lokalizacji GPS
+4. Formularz punktu 
+5. Obsługa zdjęć i zapis do bazy 
+6. Lista punktów + markery
+7. Ekran startowy + personalizacja 
+8. Dokumentacja projektu 
 
 ---
 
