@@ -99,10 +99,4 @@ Aby aplikacja działała poprawnie, wymaga następujących uprawnień:
 7. Ekran startowy + personalizacja 
 8. Dokumentacja projektu 
 
----
 
-## 7. Instalacja i uruchomienie
-
-1. Pobierz repozytorium:
-   ```bash
-   git clone https://github.com/nazwa-uzytkownika/GeoMark.git
