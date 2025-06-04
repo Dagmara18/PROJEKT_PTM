@@ -1,134 +1,111 @@
-# PROJEKT_PTM
-DOKUMENTACJA TECHNICZNA PROJEKTU APLIKACJI MOBILNEJ – MAPOWANIE TERENU 
+# 📍 GeoMark
 
-1. Opis ogólny 
+## DOKUMENTACJA TECHNICZNA APLIKACJI MOBILNEJ – GEOREFERENCJONOWANE PUNKTY TOPOGRAFICZNE
 
-Aplikacja mobilna służąca do zbierania danych przestrzennych w terenie, z funkcją zapisu punktów topograficznych, opisu lokalizacji, wykonania zdjęcia, tworzenia wielokątów i eksportu danych do plików CSV. System wykorzystuje mapę (OSMDroid + WMS), lokalizację GPS, kamerę i pamięć urządzenia. 
+---
 
-2. Moduły funkcjonalne 
+## 1. Opis ogólny
 
-A. Moduł Mapy (OSMDroid + WMS) 
+**GeoMark** to prosta i intuicyjna aplikacja mobilna służąca do zbierania punktowych danych przestrzennych w terenie - opisów topograficznych punktów geodezyjnych. Umożliwia zapisywanie współrzędnych GPS wraz z opisem i zdjęciem lokalizacji. W aplikacji można przeglądać zapisane punkty, które pozostają zapisane również po ponownym uruchomieniu aplikacji. System wykorzystuje mapę OpenStreetMap (biblioteka **osmdroid**), lokalizację GPS, kamerę urządzenia oraz lokalną bazę danych **SQLite**.
 
-•	Inicjalizacja komponentu mapy w MainActivity. 
+---
 
-•	Dodanie warstwy WMS jako warstwy zdalnej do OSMDroid. 
+## 2. Moduły funkcjonalne
 
-•	Obsługa przybliżenia do bieżącej lokalizacji użytkownika za pomocą GPS. 
+### A. 🗺️ Moduł mapy
 
-B. Moduł Lokalizacji 
+- Inicjalizacja mapy osmdroid w `MainActivity`.
+- Ustawienie domyślnego źródła kafelków – **TileSourceFactory.MAPNIK**.
+- Automatyczne przybliżenie do lokalizacji użytkownika po uruchomieniu aplikacji.
+- Obsługa markerów zapisanych punktów z bazy danych.
 
-•	Użycie LocationManager + LocationListener. 
+---
 
-•	Nasłuchiwanie zmiany lokalizacji  
+### B. 📡 Moduł lokalizacji
 
-•	Po kliknięciu „Zapisz punkt”: 
+- Wykorzystanie `LocationManager` i `LocationListener` do nasłuchiwania zmian lokalizacji.
+- Po uzyskaniu lokalizacji aplikacja automatycznie przesuwa mapę do pozycji użytkownika.
+- Marker wskazujący bieżącą pozycję użytkownika.
 
-	Odczyt współrzędnych (X, Y, Z – jeśli dostępna). 
+---
 
-	Otwarcie formularza opisu punktu. 
+### C. 📝 Moduł dodawania punktów
 
-C. Moduł Punktów i Opisu Topograficznego 
+- Formularz umożliwiający wprowadzenie:
+  - nazwy punktu (dowolny tekst),
+  - opisu punktu (np. „drzewo przy drodze”),
+  - wykonanie zdjęcia przy użyciu aparatu.
+- Automatyczne zapisanie punktu w lokalnej bazie danych z:
+  - współrzędnymi GPS,
+  - datą i godziną,
+  - zakodowanym zdjęciem w formacie base64.
+- Dodanie markera na mapie w miejscu zapisu punktu.
 
-•	Formularz dodawania punktu zawiera: 
+---
 
-	Numer punktu (wprowadzany przez użytkownika). 
+### D. 🗃️ Moduł przeglądania punktów
 
-	Opis lokalizacji (np. „środek studzienki”). 
+- Widok listy wszystkich zapisanych punktów (z nazwą, opisem i zdjęciem).
+- Lista dostępna poprzez przycisk „Przeglądaj punkty”.
+- Nagłówki z nazwą kolumn: ID, nazwa, opis, zdjęcie.
+- Możliwość powrotu do mapy przyciskiem „Powrót”.
 
-	Możliwość zrobienia zdjęcia z kamery. 
+---
 
-•	Dane zapisywane lokalnie: 
+## 3. Struktura bazy danych (SQLite)
 
-	Zdjęcie jako numer_punktu.jpg. 
+| Kolumna       | Typ danych | Opis                             |
+|---------------|------------|----------------------------------|
+| `id`          | INTEGER    | Unikalny identyfikator punktu   |
+| `nazwa`       | TEXT       | Nazwa nadana punktowi przez użytkownika |
+| `opis`        | TEXT       | Opis punktu terenowego          |
+| `data`        | TEXT       | Data i godzina dodania punktu   |
+| `x`           | REAL       | Współrzędna X (longitude)       |
+| `y`           | REAL       | Współrzędna Y (latitude)        |
+| `zdjecie`     | TEXT       | Zakodowane zdjęcie (base64)     |
 
-	CSV jako numer_punktu.csv zawierający: numer, opis, data, X, Y, Z. 
+---
 
-D. Moduł Tworzenia Wielokąta 
+## 4. Wymagane uprawnienia
 
-•	Wyświetlenie listy zapisanych punktów. 
+Aby aplikacja działała poprawnie, wymaga następujących uprawnień:
 
-•	Graficzne rysowanie wielokąta (punkty + linie łączące). 
+- `ACCESS_FINE_LOCATION` – do pozyskiwania dokładnej lokalizacji.
+- `ACCESS_COARSE_LOCATION` – alternatywne źródła lokalizacji.
+- `INTERNET` i `ACCESS_NETWORK_STATE` – pobieranie kafelków mapy.
+- `CAMERA` – do wykonywania zdjęć punktów.
 
-•	Aktywacja przycisku „Oblicz pole” po dodaniu min. 3 punktów. 
+---
 
-•	Obliczanie pola powierzchni. 
+## 5. Widoki i interfejs użytkownika
 
-•	Możliwość wyboru jednostki powierzchni: m², a, ha. 
+| Widok | Opis |
+|-------|------|
+| `StartActivity` | Strona powitalna aplikacji z nazwą GeoMark, autorami i przyciskiem „Start” |
+| `MainActivity` | Główna mapa z możliwością dodawania punktów oraz przejścia do listy punktów |
+| `Formularz` | Pola do wpisania nazwy, opisu oraz wykonania zdjęcia |
+| `PointListActivity` | Lista zapisanych punktów wraz z miniaturami zdjęć |
+| `Markery` | Wszystkie zapisane punkty są widoczne na mapie jako markery |
 
-E. Moduł Eksportu 
+---
 
-•	Eksport wielokąta do pliku CSV: numer_punktu,X,Y. 
+## 6. Etapy realizacji projektu
 
-•	Eksport każdego punktu jako osobny CSV z opisem. 
+| Etap |
 
-•	Pliki zapisywane lokalnie w folderze Documents/Punkty/. 
+| 1. Stworzenie repozytorium 
+| 2. Konfiguracja projektu + OSMDroid 
+| 3. Moduł lokalizacji GPS
+| 4. Formularz punktu 
+| 5. Obsługa zdjęć i zapis do bazy 
+| 6. Lista punktów + markery
+| 7. Ekran startowy + personalizacja 
+| 8. Dokumentacja projektu 
 
-3. Struktura bazy danych (SQLite) 
+---
 
-Kolumna	Typ danych	Opis 
+## 7. Instalacja i uruchomienie
 
-id	INTEGER	Identyfikator punktu 
-
-nazwa	TEXT	Nazwa/numer punktu 
-
-opis	TEXT	Opis punktu 
-
-data	TEXT	Data dodania 
-
-x	REAL	Współrzędna X (longitude) 
-
-y	REAL	Współrzędna Y (latitude) 
-
-z	REAL / NULL	Wysokość (jeśli dostępna) 
-
-nazwa_zdjecia	TEXT	Nazwa pliku zdjęcia 
-
- 
-
-4. Wymagane uprawnienia (permissions) 
-
-•	ACCESS_FINE_LOCATION – lokalizacja GPS. 
-
-•	CAMERA – wykonywanie zdjęć. 
-
-•	WRITE_EXTERNAL_STORAGE – zapis CSV i zdjęć w pamięci urządzenia. 
-
- 
-
-5. Widoki i UI (kluczowe elementy interfejsu) 
-
-•	MainActivity: mapa + przyciski akcji (dodaj punkt, lokalizuj, rysuj wielokąt, eksport). 
-
-•	Formularz punktu: numer, opis, zdjęcie. 
-
-•	Lista punktów (RecyclerView): wyświetlanie zapisanych punktów. 
-
-•	Podgląd wielokąta: linie i markery na mapie. 
-
-•	Dialog wyboru jednostek pola powierzchni. 
-
- 
-
-6. Etapy realizacji projektu  
-
-1	Stworzenie repozytorium (np. GitHub) – Dagmara Wancel 
-
-2	Konfiguracja projektu + dodanie OSMDroid i warstwy WMS – Julia Mioduszewska, Dagmara Wancel 
-
-3	Implementacja modułu lokalizacji GPS – Julia Mioduszewska 
-
-4	Dodanie formularza opisu punktu – Małgorzata Chmolowska 
-
-5	Obsługa zdjęcia + zapis CSV i zdjęcia – Małgorzata Kubarska 
-
-6	Widok listy punktów + rysowanie wielokąta – Dagmara Wancel  
-
-7	Obliczanie pola powierzchni  - Małgorzata Chmolowska 
-
-8	Eksport danych do CSV – Julia Mioduszewska 
-
-9	Dokumentacja końcowa  - Małgorzata Kubarska 
-
- 
-
- 
+1. Pobierz repozytorium:
+   ```bash
+   git clone https://github.com/nazwa-uzytkownika/GeoMark.git
