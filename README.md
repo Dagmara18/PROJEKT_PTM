@@ -1,4 +1,4 @@
-# 📍 GeoMark
+# GeoMark
 
 ## DOKUMENTACJA TECHNICZNA APLIKACJI MOBILNEJ – GEOREFERENCJONOWANE PUNKTY TOPOGRAFICZNE
 
@@ -12,7 +12,7 @@
 
 ## 2. Moduły funkcjonalne
 
-### A. 🗺️ Moduł mapy
+### A.  Moduł mapy
 
 - Inicjalizacja mapy osmdroid w `MainActivity`.
 - Ustawienie domyślnego źródła kafelków – **TileSourceFactory.MAPNIK**.
@@ -21,7 +21,7 @@
 
 ---
 
-### B. 📡 Moduł lokalizacji
+### B. Moduł lokalizacji
 
 - Wykorzystanie `LocationManager` i `LocationListener` do nasłuchiwania zmian lokalizacji.
 - Po uzyskaniu lokalizacji aplikacja automatycznie przesuwa mapę do pozycji użytkownika.
@@ -29,7 +29,7 @@
 
 ---
 
-### C. 📝 Moduł dodawania punktów
+### C. Moduł dodawania punktów
 
 - Formularz umożliwiający wprowadzenie:
   - nazwy punktu (dowolny tekst),
@@ -43,7 +43,7 @@
 
 ---
 
-### D. 🗃️ Moduł przeglądania punktów
+### D. Moduł przeglądania punktów
 
 - Widok listy wszystkich zapisanych punktów (z nazwą, opisem i zdjęciem).
 - Lista dostępna poprzez przycisk „Przeglądaj punkty”.
